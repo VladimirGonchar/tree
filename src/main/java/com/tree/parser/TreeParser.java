@@ -1,10 +1,15 @@
-package com.tree;
+package com.tree.parser;
+
+import com.tree.Node;
+import com.tree.Tree;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TreeParser {
 
@@ -26,13 +31,7 @@ public class TreeParser {
             throw new IllegalArgumentException("File is empty");
         }
 
-        Node root = parsedRootNodes.entrySet().stream()
-                .map(Map.Entry::getValue)
-                .filter(node -> !node.hasParent())
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Stream has several roots"));
-
-        return new Tree(root);
+        return getRoot(parsedRootNodes);
     }
 
     private Node parseSingleLine(String textLine, Map<String, Node> parsedHeadNodes, Map<String, Node> parsedLeafs) {
@@ -79,12 +78,31 @@ public class TreeParser {
     }
 
     private Node getLeaf(Map<String, Node> parsedHeadNodes, String nodeName, Map<String, Node> parsedLeafs) {
+        if (parsedLeafs.containsKey(nodeName)) {
+            throw new IllegalArgumentException("Node " + nodeName + " has several parents");
+        }
+
         Node leaf = parsedHeadNodes.containsKey(nodeName)
                 ? parsedHeadNodes.get(nodeName)
                 : new Node(nodeName);
 
         parsedLeafs.put(leaf.getName(), leaf);
         return leaf;
+    }
+
+    private Tree getRoot(Map<String, Node> parsedRootNodes) {
+        List<Node> roots = parsedRootNodes.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .filter(node -> !node.hasParent())
+                .collect(Collectors.toList());
+
+        if (roots.size() == 1) {
+            return new Tree(roots.get(0));
+        } else if (roots.size() == 0) {
+            throw new IllegalArgumentException("File doesn't have roots (looping)");
+        } else {
+            throw new IllegalArgumentException("File has several roots");
+        }
     }
 
 }

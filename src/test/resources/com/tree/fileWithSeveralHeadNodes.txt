@@ -1,0 +1,3 @@
+root,left,right
+left,child left,child right
+left,#,#

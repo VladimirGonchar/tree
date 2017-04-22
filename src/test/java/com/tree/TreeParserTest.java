@@ -1,5 +1,6 @@
 package com.tree;
 
+import com.tree.parser.TreeParser;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,12 +34,25 @@ public class TreeParserTest {
         root.setLeft(left);
         root.setRight(new Node("right", root));
 
-        left.setLeft(new Node("child left", left));
         left.setRight(new Node("child right", left));
-
 
         Tree expectedResult = new Tree(root);
         assertEquals(expectedResult, actualResult);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parserShouldThrowExceptionIfFileHasNodesWithSeveralParents() throws IOException {
+        parser.createTree(getResource("com/tree/fileWithChildWhichHasSeveralParents.txt"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parserShouldThrowExceptionIfFileHasSeveralHeadNodes() throws IOException {
+        parser.createTree(getResource("com/tree/fileWithSeveralHeadNodes.txt"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void parserShouldThrowExceptionIfFileHasLoopedNodes() throws IOException {
+        parser.createTree(getResource("com/tree/fileWithLoopedNodes.txt"));
     }
 
     private InputStreamReader getResource(String filePath) {

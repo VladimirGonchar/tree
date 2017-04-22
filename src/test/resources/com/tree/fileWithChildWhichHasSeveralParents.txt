@@ -1,0 +1,3 @@
+right,child right,child left
+left,child left,child right
+root,left,right
