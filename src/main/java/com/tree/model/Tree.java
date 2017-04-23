@@ -15,6 +15,10 @@ public class Tree {
         this.root = root;
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
