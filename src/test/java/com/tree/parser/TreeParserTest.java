@@ -1,7 +1,7 @@
 package com.tree.parser;
 
-import com.tree.Node;
-import com.tree.Tree;
+import com.tree.model.Node;
+import com.tree.model.Tree;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;

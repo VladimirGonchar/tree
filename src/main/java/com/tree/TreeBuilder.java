@@ -1,5 +1,8 @@
 package com.tree;
 
+import com.tree.model.Node;
+import com.tree.model.Tree;
+
 import java.util.HashMap;
 import java.util.Map;
 

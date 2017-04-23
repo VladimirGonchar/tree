@@ -1,7 +1,7 @@
 package com.tree.parser;
 
-import com.tree.Tree;
 import com.tree.TreeBuilder;
+import com.tree.model.Tree;
 
 import java.io.*;
 
